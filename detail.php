@@ -4,7 +4,7 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
     header('Location: 404.php');
     exit();
 }
-
+    //halo
 $id = mysqli_real_escape_string($conn, $_GET['id']);
 $data_query = mysqli_query($conn, "SELECT * FROM produk WHERE id = '$id'");
 $data = mysqli_fetch_assoc($data_query);
