@@ -1,0 +1,4 @@
+# Cegah akses langsung ke folder includes
+Options -Indexes
+Order Allow,Deny
+Deny from all

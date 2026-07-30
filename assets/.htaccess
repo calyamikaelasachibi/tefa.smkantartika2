@@ -1,0 +1,2 @@
+# Izinkan akses ke assets tapi cegah directory listing
+Options -Indexes

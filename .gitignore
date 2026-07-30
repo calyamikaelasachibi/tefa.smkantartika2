@@ -1,0 +1,17 @@
+# Mengabaikan folder konfigurasi editor VS Code agar pengaturan lokal tidak ikut ke repository
+.vscode/
+
+# Mengabaikan file metadata yang otomatis dibuat oleh macOS
+.DS_Store
+
+# Mengabaikan file metadata yang otomatis dibuat oleh Windows
+Thumbs.db
+
+# Mengabaikan semua file log karena bersifat sementara dan dapat dibuat ulang
+*.log
+
+# Mengabaikan file database SQL agar data lokal tidak ikut terunggah ke repository
+tefa_catalog.sql
+
+# Mengabaikan file konfigurasi koneksi database karena biasanya berisi pengaturan yang berbeda di setiap komputer
+includes/koneksi.php
