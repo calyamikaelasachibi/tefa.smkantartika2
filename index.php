@@ -11,7 +11,7 @@ $unggulan_query = mysqli_query($conn, "SELECT * FROM produk WHERE stok > 0 ORDER
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/jpeg" href="assets/images/logo-smk-antartika-2-sidoarjo.jpg">
-    <title>Tefa Store - SMKS Antartika 2 Kelompok 3</title>
+    <title>Tefa Store - SMKS Antartika 2 Kelompok 3 12 RPL 1</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -129,7 +129,7 @@ $unggulan_query = mysqli_query($conn, "SELECT * FROM produk WHERE stok > 0 ORDER
             </div>
 
             <div class="text-center mb-20">
-                <h2 class="text-xl md:text-2xl font-bold text-[#002147] mb-1 uppercase">Temukan Produk Terbaik Untuk Kebutuhan Anda</h2>
+                <h2 class="text-xl md:text-2xl font-bold text-[#002147] mb-1 uppercase">Semua Produk Yang Anda Cari Ada Disini</h2>
                 <p class="text-[#FFB606] text-md md:text-lg font-medium mb-10">Koleksi Terlengkap & Kualitas Terjamin Hanya disini</p>
                 <a href="katalog.php" class="inline-block text-white px-12 py-4 rounded-md font-semibold bg-[#FFB606]">
                     Cari Produkmu!
