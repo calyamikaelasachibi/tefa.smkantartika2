@@ -39,6 +39,11 @@ $foto_admin = $admin_data['foto'] ? '../assets/images/' . $admin_data['foto'] : 
             <span class="text-sm font-medium">Ulasan</span>
         </a>
 
+        <a href="pengguna.php" class="flex items-center gap-3 px-3 py-2.5 rounded hover:bg-[#2c3338] hover:text-white transition-all group <?= $halaman_admin == 'pengguna.php' ? 'bg-[#2271b1] text-white' : '' ?>">
+            <i class="fa-solid fa-users-gear text-sm <?= $halaman_admin == 'pengguna.php' ? 'text-white' : 'text-[#646970] group-hover:text-white' ?>"></i>
+            <span class="text-sm font-medium">Pengelolaan User</span>
+        </a>
+
         <a href="profil.php" class="flex items-center gap-3 px-3 py-2.5 rounded hover:bg-[#2c3338] hover:text-white transition-all group <?= $halaman_admin == 'profil.php' ? 'bg-[#2271b1] text-white' : '' ?>">
             <i class="fa-solid fa-user-gear text-sm <?= $halaman_admin == 'profil.php' ? 'text-white' : 'text-[#646970] group-hover:text-white' ?>"></i>
             <span class="text-sm font-medium">Profil</span>
