@@ -34,6 +34,11 @@ $foto_admin = $admin_data['foto'] ? '../assets/images/' . $admin_data['foto'] : 
             <span class="text-sm font-medium">Tambah Produk</span>
         </a>
 
+        <a href="laporan_pembelian.php" class="flex items-center gap-3 px-3 py-2.5 rounded hover:bg-[#2c3338] hover:text-white transition-all group <?= $halaman_admin == 'laporan_pembelian.php' ? 'bg-[#2271b1] text-white' : '' ?>">
+            <i class="fa-solid fa-receipt text-sm <?= $halaman_admin == 'laporan_pembelian.php' ? 'text-white' : 'text-[#646970] group-hover:text-white' ?>"></i>
+            <span class="text-sm font-medium">Laporan Pembelian</span>
+        </a>
+
         <a href="ulasan.php" class="flex items-center gap-3 px-3 py-2.5 rounded hover:bg-[#2c3338] hover:text-white transition-all group <?= $halaman_admin == 'ulasan.php' ? 'bg-[#2271b1] text-white' : '' ?>">
             <i class="fa-solid fa-star text-sm <?= $halaman_admin == 'ulasan.php' ? 'text-white' : 'text-[#646970] group-hover:text-white' ?>"></i>
             <span class="text-sm font-medium">Ulasan</span>
