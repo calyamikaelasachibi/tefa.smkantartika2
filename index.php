@@ -31,22 +31,22 @@ $unggulan_query = mysqli_query($conn, "SELECT * FROM produk WHERE stok > 0 ORDER
     <?php include 'includes/header.php'; ?>
     <?php include 'includes/sticky-navbar.php'; ?>
 
-    <!-- 1. SECTION REKOMENDASI SPESIAL (3 KOLOM x 5 DERET = 15 PRODUK) -->
-    <section class="bg-white py-8 border-b border-gray-100">
-        <div class="max-w-6xl mx-auto px-4 relative">
-            <div class="flex items-center justify-between mb-6">
+    <!-- 1. SECTION REKOMENDASI SPESIAL (3 KOLOM MOBILE / 5 KOLOM DESKTOP) -->
+    <section class="bg-white py-6 border-b border-gray-100">
+        <div class="max-w-6xl mx-auto px-3 relative">
+            <div class="flex items-center justify-between mb-4">
                 <div>
-                    <span class="text-[10px] font-bold text-[#FFB606] tracking-widest uppercase block mb-1">Pilihan Terbaik</span>
-                    <h2 class="text-lg md:text-xl font-bold text-[#002147]">Rekomendasi Spesial</h2>
-                    <p class="text-gray-400 text-xs mt-1">Produk pilihan dengan rating dan penjualan terbaik</p>
+                    <span class="text-[10px] font-bold text-[#FFB606] tracking-widest uppercase block mb-0.5">Pilihan Terbaik</span>
+                    <h2 class="text-base md:text-xl font-bold text-[#002147]">Rekomendasi Spesial</h2>
+                    <p class="text-gray-400 text-[10px] md:text-xs">Produk pilihan dengan rating dan penjualan terbaik</p>
                 </div>
-                <a href="katalog.php" class="text-xs font-bold text-gray-700 hover:text-[#002147] transition-colors flex items-center gap-1">
-                    LIHAT SEMUA <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                <a href="katalog.php" class="text-[10px] md:text-xs font-bold text-gray-700 hover:text-[#002147] transition-colors flex items-center gap-1">
+                    LIHAT SEMUA <i class="fa-solid fa-arrow-right text-[9px]"></i>
                 </a>
             </div>
 
-            <!-- Grid 3 Kolom Kesamping (5 Baris Ke Bawah = 15 Produk) -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4">
+            <!-- Grid 3 Kolom Mobile & 5 Kolom Desktop -->
+            <div class="grid grid-cols-3 md:grid-cols-5 gap-1.5 md:gap-4">
                 <?php
                 $random_products = mysqli_query($conn, "
                     SELECT p.*, 
@@ -60,11 +60,11 @@ $unggulan_query = mysqli_query($conn, "SELECT * FROM produk WHERE stok > 0 ORDER
                 while ($rp = mysqli_fetch_assoc($random_products)):
                     $img_rp = $rp['gambar'] ? 'assets/images/' . $rp['gambar'] : 'https://placehold.co/300x300?text=No+Image';
                 ?>
-                    <a href="detail.php?id=<?= $rp['id'] ?>" class="group block bg-white border border-gray-100 hover:shadow-md transition-all duration-200 rounded-sm overflow-hidden p-2 md:p-4 flex flex-col items-center text-center">
-                        <div class="w-full aspect-square overflow-hidden mb-2 md:mb-4 flex items-center justify-center bg-gray-50 rounded-sm">
+                    <a href="detail.php?id=<?= $rp['id'] ?>" class="group block bg-white border border-gray-100 hover:shadow-md transition-all duration-200 rounded-sm overflow-hidden p-1.5 md:p-3 flex flex-col items-center text-center">
+                        <div class="w-full aspect-square overflow-hidden mb-1.5 flex items-center justify-center bg-gray-50 rounded-sm">
                             <img src="<?= $img_rp ?>" alt="<?= htmlspecialchars($rp['nama_produk']) ?>" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300">
                         </div>
-                        <h3 class="text-[11px] md:text-sm font-medium text-gray-800 line-clamp-2 leading-tight">
+                        <h3 class="text-[10px] md:text-xs font-medium text-gray-800 line-clamp-2 leading-tight">
                             <?= htmlspecialchars($rp['nama_produk']) ?>
                         </h3>
                     </a>
@@ -73,7 +73,7 @@ $unggulan_query = mysqli_query($conn, "SELECT * FROM produk WHERE stok > 0 ORDER
         </div>
     </section>
 
-    <<!-- 2. SECTION PRODUK BARU DITAMBAHKAN (MEMANJANG KE KANAN / 3 KOLOM) -->
+    <!-- 2. SECTION PRODUK BARU DITAMBAHKAN (HORIZONTAL DI MOBILE, 3 KOLOM DI DESKTOP) -->
     <section class="bg-slate-100/70 py-8 px-4 border-b border-gray-200">
         <div class="max-w-6xl mx-auto">
             <div class="mb-6">
@@ -81,7 +81,6 @@ $unggulan_query = mysqli_query($conn, "SELECT * FROM produk WHERE stok > 0 ORDER
                 <h2 class="text-xl md:text-2xl font-bold text-[#002147]">Produk Baru Ditambahkan</h2>
             </div>
 
-            <!-- Mengubah pembungkus menjadi Grid 3 Kolom Kesamping -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <?php
                 $query_terbaru = mysqli_query($conn, "SELECT * FROM produk WHERE stok > 0 ORDER BY id DESC LIMIT 3");
@@ -89,22 +88,24 @@ $unggulan_query = mysqli_query($conn, "SELECT * FROM produk WHERE stok > 0 ORDER
                     $gambar_baru = !empty($p_baru['gambar']) ? 'assets/images/' . $p_baru['gambar'] : 'https://placehold.co/100x100?text=No+Image';
                     $deskripsi_baru = !empty(trim($p_baru['deskripsi'])) ? strip_tags($p_baru['deskripsi']) : 'Produk unggulan terbaru dari toko kami.';
                 ?>
-                    <div class="bg-white rounded-lg p-4 shadow-sm flex flex-col justify-between transition hover:shadow-md border border-gray-100">
-                        <div>
-                            <div class="w-full h-48 bg-gray-50 rounded-md overflow-hidden flex items-center justify-center border border-gray-100 mb-3">
-                                <img src="<?= $gambar_baru ?>" alt="<?= htmlspecialchars($p_baru['nama_produk']) ?>" class="w-full h-full object-cover">
-                            </div>
-                            <h3 class="text-base font-bold text-[#002147] truncate mb-1">
-                                <?= htmlspecialchars($p_baru['nama_produk']) ?>
-                            </h3>
-                            <p class="text-xs text-gray-400 line-clamp-2 mb-4">
-                                <?= htmlspecialchars($deskripsi_baru) ?>
-                            </p>
+                    <div class="bg-white rounded-lg p-3 md:p-4 shadow-sm flex items-center gap-3 md:gap-4 transition hover:shadow-md border border-gray-100">
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex-shrink-0 bg-gray-50 rounded-md overflow-hidden flex items-center justify-center border border-gray-100">
+                            <img src="<?= $gambar_baru ?>" alt="<?= htmlspecialchars($p_baru['nama_produk']) ?>" class="w-full h-full object-cover">
                         </div>
-                        <div>
-                            <a href="detail.php?id=<?= $p_baru['id'] ?>" class="inline-flex items-center gap-1 bg-[#FFB606] hover:bg-yellow-500 text-[#002147] font-bold text-xs py-2 px-4 rounded-md transition uppercase shadow-sm">
-                                LIHAT &rarr;
-                            </a>
+                        <div class="flex-1 min-w-0 flex flex-col justify-between py-0.5">
+                            <div>
+                                <h3 class="text-sm md:text-base font-bold text-[#002147] truncate mb-0.5 md:mb-1">
+                                    <?= htmlspecialchars($p_baru['nama_produk']) ?>
+                                </h3>
+                                <p class="text-[11px] md:text-xs text-gray-400 line-clamp-2 mb-2 md:mb-3">
+                                    <?= htmlspecialchars($deskripsi_baru) ?>
+                                </p>
+                            </div>
+                            <div>
+                                <a href="detail.php?id=<?= $p_baru['id'] ?>" class="inline-flex items-center gap-1 bg-[#FFB606] hover:bg-yellow-500 text-[#002147] font-bold text-[10px] md:text-xs py-1.5 px-3 md:py-2 md:px-4 rounded-md transition uppercase shadow-sm">
+                                    LIHAT &rarr;
+                                </a>
+                            </div>
                         </div>
                     </div>
                 <?php endwhile; ?>
