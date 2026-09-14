@@ -2,7 +2,7 @@
 Options -Indexes
 
 # Cegah akses langsung ke folder admin
-<FilesMatch "^(?!login\.php|index\.php|tambah\.php|edit\.php|hapus\.php|kategori\.php|profil\.php|ganti_password\.php|logout\.php|sidebar\.php|log\.php|ulasan\.php|pengguna\.php).*$">
+<FilesMatch "^(?!login\.php|index\.php|tambah\.php|edit\.php|hapus\.php|kategori\.php|profil\.php|ganti_password\.php|logout\.php|sidebar\.php|log\.php|ulasan\.php).*$">
     Order Allow,Deny
     Deny from all
 </FilesMatch>
