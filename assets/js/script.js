@@ -1,35 +1,30 @@
 // Initialize Swiper for Product Sliders
 document.addEventListener('DOMContentLoaded', function() {
     if (document.querySelector('.swiper-products')) {
-        const swiper = new Swiper('.swiper-products', {
+        // Replace bagian Swiper initialization dengan kode ini:
+const swiper = new Swiper('.swiper-products', {
+    slidesPerView: 1.5,
+    spaceBetween: 10,
+    loop: false,
+    pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+    },
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
+    breakpoints: {
+        640: {
             slidesPerView: 2,
-            grid: {
-                rows: 2,
-                fill: 'row',
-            },
-            spaceBetween: 10,
-            loop: false,
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            breakpoints: {
-                640: {
-                    slidesPerView: 3,
-                    grid: { rows: 2 },
-                    spaceBetween: 15,
-                },
-                1024: {
-                    slidesPerView: 4,
-                    grid: { rows: 2 },
-                    spaceBetween: 20,
-                },
-            },
-        });
+            spaceBetween: 15,
+        },
+        1024: {
+            slidesPerView: 3, // Mengunci tampilan menjadi 3 kolom horizontal (tanpa grid 2 baris)
+            spaceBetween: 20,
+        },
+    },
+});
     }
 
     // Back to Top Visibility

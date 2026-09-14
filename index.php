@@ -11,220 +11,210 @@ $unggulan_query = mysqli_query($conn, "SELECT * FROM produk WHERE stok > 0 ORDER
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/jpeg" href="assets/images/logo-smk-antartika-2-sidoarjo.jpg">
-    <title>Tefa Store - SMKS Antartika 2 Kelompok keren</title>
+    <title>Tefa Store - SMKS Antartika 2 Kelompok Keren</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
-        .swiper-products .swiper-pagination-bullet {
-            width: 8px;
-            height: 8px;
-            background: #d1d5db;
-            opacity: 1;
+        /* Sembunyikan scrollbar untuk tampilan mobile tab horizontal */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
         }
-
-        .swiper-products .swiper-pagination-bullet-active {
-            background: #002147;
-        }
-
-        .swiper-products .swiper-slide {
-            height: auto !important;
-            margin-bottom: 20px;
-        }
-
-        .swiper-products {
-            padding-bottom: 40px !important;
-        }
-
-        .swiper-button-next::after,
-        .swiper-button-prev::after {
-            display: none !important;
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
     </style>
 </head>
 
-<body>
+<body class="bg-gray-50 text-gray-800 antialiased">
 
     <?php include 'includes/header.php'; ?>
     <?php include 'includes/sticky-navbar.php'; ?>
 
-    <section class="bg-gray-50 py-12 border-b border-gray-100">
-        <div class="max-w-5xl mx-auto px-4 relative">
-            <div class="flex items-center justify-between mb-8">
+    <!-- 1. SECTION REKOMENDASI SPESIAL (3 KOLOM x 5 DERET = 15 PRODUK) -->
+    <section class="bg-white py-8 border-b border-gray-100">
+        <div class="max-w-6xl mx-auto px-4 relative">
+            <div class="flex items-center justify-between mb-6">
                 <div>
-                    <h2 class="text-xl font-bold text-[#002147] border-b-4 border-[#FFB606] pb-2 inline-block">Rekomendasi Spesial</h2>
-                    <p class="text-gray-500 text-xs mt-2">Produk pilihan dengan rating dan penjualan terbaik</p>
+                    <span class="text-[10px] font-bold text-[#FFB606] tracking-widest uppercase block mb-1">Pilihan Terbaik</span>
+                    <h2 class="text-lg md:text-xl font-bold text-[#002147]">Rekomendasi Spesial</h2>
+                    <p class="text-gray-400 text-xs mt-1">Produk pilihan dengan rating dan penjualan terbaik</p>
                 </div>
+                <a href="katalog.php" class="text-xs font-bold text-gray-700 hover:text-[#002147] transition-colors flex items-center gap-1">
+                    LIHAT SEMUA <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                </a>
             </div>
 
-            <div class="relative group/swiper px-2 md:px-12">
-                <div class="swiper swiper-products !pb-12">
-                    <div class="swiper-wrapper">
-                        <?php
-                        $random_products = mysqli_query($conn, "
-                            SELECT p.*, 
-                            (SELECT AVG(bintang) FROM ulasan WHERE produk_id = p.id) as rata_rating
-                            FROM produk p 
-                            WHERE p.stok > 0 
-                            ORDER BY RAND() 
-                            LIMIT 16
-                        ");
+            <!-- Grid 3 Kolom Kesamping (5 Baris Ke Bawah = 15 Produk) -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4">
+                <?php
+                $random_products = mysqli_query($conn, "
+                    SELECT p.*, 
+                    (SELECT AVG(bintang) FROM ulasan WHERE produk_id = p.id) as rata_rating
+                    FROM produk p 
+                    WHERE p.stok > 0 
+                    ORDER BY RAND() 
+                    LIMIT 15
+                ");
 
-                        while ($rp = mysqli_fetch_assoc($random_products)):
-                            $img_rp = $rp['gambar'] ? 'assets/images/' . $rp['gambar'] : '';
-                        ?>
-                            <div class="swiper-slide !h-auto">
-                                <a href="detail.php?id=<?= $rp['id'] ?>" class="group block bg-white border border-gray-200 hover:border-[#002147] hover:border-2 transition-all duration-150 h-full p-4 flex flex-col items-center">
-                                    <div class="w-full aspect-square overflow-hidden mb-4 flex items-center justify-center">
-                                        <img src="<?= $img_rp ?>" alt="<?= $rp['nama_produk'] ?>" class="max-w-full max-h-full object-contain">
-                                    </div>
-
-                                    <div class="text-center">
-                                        <h3 class="text-xs md:text-sm font-medium text-gray-800 line-clamp-2 leading-snug"><?= $rp['nama_produk'] ?></h3>
-                                    </div>
-                                </a>
-                            </div>
-                        <?php endwhile; ?>
-                    </div>
-
-                    <div class="swiper-pagination !bottom-0"></div>
-                </div>
-
-                <div class="swiper-button-next !w-10 !h-10 !bg-white !rounded-full !text-[#FFB606] hover:!bg-[#FFB606] hover:!text-white transition-all !-right-4 md:!-right-6 border border-gray-100 flex items-center justify-center">
-                    <i class="fa-solid fa-chevron-right text-sm"></i>
-                </div>
-                <div class="swiper-button-prev !w-10 !h-10 !bg-white !rounded-full !text-[#FFB606] hover:!bg-[#FFB606] hover:!text-white transition-all !-left-4 md:!-left-6 border border-gray-100 flex items-center justify-center">
-                    <i class="fa-solid fa-chevron-left text-sm"></i>
-                </div>
+                while ($rp = mysqli_fetch_assoc($random_products)):
+                    $img_rp = $rp['gambar'] ? 'assets/images/' . $rp['gambar'] : 'https://placehold.co/300x300?text=No+Image';
+                ?>
+                    <a href="detail.php?id=<?= $rp['id'] ?>" class="group block bg-white border border-gray-100 hover:shadow-md transition-all duration-200 rounded-sm overflow-hidden p-2 md:p-4 flex flex-col items-center text-center">
+                        <div class="w-full aspect-square overflow-hidden mb-2 md:mb-4 flex items-center justify-center bg-gray-50 rounded-sm">
+                            <img src="<?= $img_rp ?>" alt="<?= htmlspecialchars($rp['nama_produk']) ?>" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <h3 class="text-[11px] md:text-sm font-medium text-gray-800 line-clamp-2 leading-tight">
+                            <?= htmlspecialchars($rp['nama_produk']) ?>
+                        </h3>
+                    </a>
+                <?php endwhile; ?>
             </div>
         </div>
     </section>
 
-    <section class="bg-gray-50 py-16">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+    <<!-- 2. SECTION PRODUK BARU DITAMBAHKAN (MEMANJANG KE KANAN / 3 KOLOM) -->
+    <section class="bg-slate-100/70 py-8 px-4 border-b border-gray-200">
+        <div class="max-w-6xl mx-auto">
+            <div class="mb-6">
+                <span class="text-xs font-bold text-[#FFB606] uppercase tracking-wider block mb-1">TERBARU</span>
+                <h2 class="text-xl md:text-2xl font-bold text-[#002147]">Produk Baru Ditambahkan</h2>
+            </div>
+
+            <!-- Mengubah pembungkus menjadi Grid 3 Kolom Kesamping -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <?php
-                $top_cards = mysqli_query($conn, "SELECT * FROM produk WHERE stok > 0 ORDER BY created_at DESC LIMIT 3");
-                while ($tc = mysqli_fetch_assoc($top_cards)):
-                    $img_tc = $tc['gambar'] ? 'assets/images/' . $tc['gambar'] : 'https://placehold.co/300x200?text=No+Image';
+                $query_terbaru = mysqli_query($conn, "SELECT * FROM produk WHERE stok > 0 ORDER BY id DESC LIMIT 3");
+                while ($p_baru = mysqli_fetch_assoc($query_terbaru)):
+                    $gambar_baru = !empty($p_baru['gambar']) ? 'assets/images/' . $p_baru['gambar'] : 'https://placehold.co/100x100?text=No+Image';
+                    $deskripsi_baru = !empty(trim($p_baru['deskripsi'])) ? strip_tags($p_baru['deskripsi']) : 'Produk unggulan terbaru dari toko kami.';
                 ?>
-                    <a href="detail.php?id=<?= $tc['id'] ?>" class=" p-6 rounded-sm flex items-center gap-4 transition-shadow">
-                        <div class="w-1/2 aspect-[3/2] overflow-hidden rounded-sm">
-                            <img src="<?= $img_tc ?>" alt="<?= $tc['nama_produk'] ?>" class="w-full h-full object-cover">
-                        </div>
-                        <div class="w-1/2">
-                            <h4 class="text-sm font-bold text-gray-900 mb-1 line-clamp-1"><?= $tc['nama_produk'] ?></h4>
-                            <p class="text-[10px] text-gray-500 mb-3 leading-tight line-clamp-2">
-                                <?php
-                                $desc = !empty(trim($tc['deskripsi'])) ? strip_tags($tc['deskripsi']) : 'Produk unggulan terbaru dari toko kami.';
-                                echo $desc;
-                                ?>
-                            </p>
-                            <div class="bg-[#FFB606] p-1 px-4 w-fit text-sm text-white rounded-sm justify-center">
-                                Cek sekarang
+                    <div class="bg-white rounded-lg p-4 shadow-sm flex flex-col justify-between transition hover:shadow-md border border-gray-100">
+                        <div>
+                            <div class="w-full h-48 bg-gray-50 rounded-md overflow-hidden flex items-center justify-center border border-gray-100 mb-3">
+                                <img src="<?= $gambar_baru ?>" alt="<?= htmlspecialchars($p_baru['nama_produk']) ?>" class="w-full h-full object-cover">
                             </div>
+                            <h3 class="text-base font-bold text-[#002147] truncate mb-1">
+                                <?= htmlspecialchars($p_baru['nama_produk']) ?>
+                            </h3>
+                            <p class="text-xs text-gray-400 line-clamp-2 mb-4">
+                                <?= htmlspecialchars($deskripsi_baru) ?>
+                            </p>
                         </div>
-                    </a>
+                        <div>
+                            <a href="detail.php?id=<?= $p_baru['id'] ?>" class="inline-flex items-center gap-1 bg-[#FFB606] hover:bg-yellow-500 text-[#002147] font-bold text-xs py-2 px-4 rounded-md transition uppercase shadow-sm">
+                                LIHAT &rarr;
+                            </a>
+                        </div>
+                    </div>
                 <?php endwhile; ?>
             </div>
+        </div>
+    </section>
 
-            <div class="text-center mb-20">
-                <h2 class="text-xl md:text-2xl font-bold text-[#002147] mb-1 uppercase">Temukan Produk Terbaik Untuk Kebutuhan Anda</h2>
-                <p class="text-[#FFB606] text-md md:text-lg font-medium mb-10">Koleksi Terlengkap & Kualitas Terjamin Hanya disini</p>
-                <a href="katalog.php" class="inline-block text-white px-12 py-4 rounded-md font-semibold bg-[#FFB606]">
-                    Cari Produkmu!
-                </a>
+    <!-- 3. BANNER PROMO BIRU TEFA STORE -->
+    <section class="bg-[#002147] text-white py-12 px-4 text-center">
+        <div class="max-w-4xl mx-auto">
+            <span class="text-[#FFB606] text-xs font-bold tracking-widest uppercase block mb-2">TEFA STORE</span>
+            <h2 class="text-xl md:text-3xl font-extrabold mb-3 leading-tight">
+                Temukan Produk Terbaik Untuk Kebutuhan Anda
+            </h2>
+            <p class="text-xs md:text-sm text-gray-300 mb-6">
+                Koleksi Terlengkap & Kualitas Terjamin &mdash; Karya Siswa SMKS Antartika 2 Sidoarjo
+            </p>
+            <a href="katalog.php" class="inline-block bg-[#FFB606] hover:bg-yellow-500 text-[#002147] font-bold text-xs md:text-sm py-3 px-8 rounded-md transition shadow-md uppercase">
+                LIHAT SEMUA PRODUK &rarr;
+            </a>
+        </div>
+    </section>
+
+    <!-- 4. PRODUK PILIHAN / PILIHAN EDITOR -->
+    <section class="bg-white py-10 border-b border-gray-100">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="mb-6">
+                <span class="text-[10px] font-bold text-[#FFB606] tracking-widest uppercase block mb-1">PILIHAN EDITOR</span>
+                <h2 class="text-lg md:text-xl font-bold text-[#002147]">Produk Pilihan</h2>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-20 text-center">
+            <div class="grid grid-cols-3 gap-3 md:gap-6 text-center">
                 <?php
                 $featured_cta = mysqli_query($conn, "SELECT * FROM produk WHERE stok > 0 ORDER BY RAND() LIMIT 3");
                 while ($fc = mysqli_fetch_assoc($featured_cta)):
                     $img_fc = $fc['gambar'] ? 'assets/images/' . $fc['gambar'] : 'https://placehold.co/200x300?text=Product';
                 ?>
-                    <div class="flex flex-col items-center group">
-                        <a href="detail.php?id=<?= $fc['id'] ?>" class="w-full">
-                            <div class="w-full aspect-[4/5] mb-6 flex items-center justify-center rounded-xl overflow-hidden border-gray-100">
-                                <img src="<?= $img_fc ?>" alt="<?= $fc['nama_produk'] ?>" class="max-h-full max-w-full object-contain p-6">
-                            </div>
-                            <h3 class="text-lg font-bold text-[#002147] group-hover:text-[#FFB606]"><?= $fc['nama_produk'] ?></h3>
-                        </a>
-                    </div>
+                    <a href="detail.php?id=<?= $fc['id'] ?>" class="group block bg-white border border-gray-100 hover:border-[#FFB606] rounded-sm overflow-hidden p-2 transition">
+                        <div class="w-full aspect-square mb-2 flex items-center justify-center overflow-hidden bg-gray-50 rounded-sm">
+                            <img src="<?= $img_fc ?>" alt="<?= htmlspecialchars($fc['nama_produk']) ?>" class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <h3 class="text-xs font-bold text-[#002147] group-hover:text-[#FFB606] transition-colors truncate"><?= htmlspecialchars($fc['nama_produk']) ?></h3>
+                    </a>
                 <?php endwhile; ?>
             </div>
-
-            <!--<div class="flex flex-wrap justify-around gap-16 md:gap-32 bg-gray-50 py-12 rounded-2xl">-->
-            <!--    <div class="flex items-center gap-6">-->
-            <!--        <div class="w-16 h-16 rounded-full flex items-center justify-center text-[#FFB606]">-->
-            <!--            <i class="fa-solid fa-display text-3xl"></i>-->
-            <!--        </div>-->
-            <!--        <div>-->
-            <!--            <h4 class="text-xl font-bold text-[#002147]">Display & Jual</h4>-->
-            <!--            <p class="text-sm text-gray-500">Etalase digital produk terbaik</p>-->
-            <!--        </div>-->
-            <!--    </div>-->
-            <!--    <div class="flex items-center gap-6">-->
-            <!--        <div class="w-16 h-16 rounded-full flex items-center justify-center text-[#FFB606]">-->
-            <!--            <i class="fa-solid fa-comments text-3xl"></i>-->
-            <!--        </div>-->
-            <!--        <div>-->
-            <!--            <h4 class="text-xl font-bold text-[#002147]">Diskusi Produk</h4>-->
-            <!--            <p class="text-sm text-gray-500">Tanya jawab seputar produk</p>-->
-            <!--        </div>-->
-            <!--    </div>-->
-            <!--</div>-->
-
-            <div class="mt-24 text-center">
-                <h2 class="text-xl md:text-2xl font-bold text-[#002147] mb-10 uppercase">Kategori terpopuler</h2>
-                <div class="flex flex-wrap justify-center gap-8 md:gap-12">
-                    <?php
-                    $pop_cats = mysqli_query($conn, "
-                        SELECT k.nama_kategori, 
-                        (SELECT gambar FROM produk WHERE kategori = k.nama_kategori AND gambar != '' ORDER BY RAND() LIMIT 1) as gambar_produk
-                        FROM kategori k 
-                        ORDER BY (SELECT COUNT(id) FROM produk WHERE kategori = k.nama_kategori) DESC 
-                        LIMIT 5
-                    ");
-                    while ($pc = mysqli_fetch_assoc($pop_cats)):
-                        $img_pc = $pc['gambar_produk'] ? 'assets/images/' . $pc['gambar_produk'] : 'https://placehold.co/200x200?text=' . urlencode($pc['nama_kategori']);
-                    ?>
-                        <a href="index.php?kategori=<?= urlencode($pc['nama_kategori']) ?>" class="group flex flex-col items-center">
-                            <div class="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden">
-                                <img src="<?= $img_pc ?>" alt="<?= $pc['nama_kategori'] ?>" class="w-full h-full object-cover">
-                            </div>
-                            <span class="mt-4 text-xs font-semibold text-gray-700 group-hover:text-[#002147]"><?= $pc['nama_kategori'] ?></span>
-                        </a>
-                    <?php endwhile; ?>
-                </div>
-            </div>
         </div>
     </section>
 
-    <section class="bg-gray-50 border-t border-gray-100">
-        <p class="text-xs text-center text-gray-500 py-2">ADVERTISEMENTS</p>
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 gap-6">
-                <div class="bg-white border border-gray-200 rounded-sm overflow-hidden shadow-sm">
-                    <a href="https://smkantartika2-sda.sch.id/post/detail/antartika-fair-2026-event-spektakuler-penuh-talenta-dan-hiburan-di-sidoarjo" target="_blank">
-                        <img src="assets/images/iklan-horizontal.png" 
-                             alt="Iklan Horizontal" 
-                             class="w-full h-32 object-cover">
+    <!-- 5. KATEGORI TERPOPULER (4 ITEM DENGAN GRID 4 KOLOM) -->
+    <section class="bg-gray-50 py-10">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="mb-8 text-left">
+                <span class="text-[10px] font-bold text-[#FFB606] tracking-widest uppercase block mb-1">JELAJAHI</span>
+                <h2 class="text-lg md:text-xl font-bold text-[#002147]">Kategori Terpopuler</h2>
+            </div>
+
+            <div class="grid grid-cols-4 gap-2 md:gap-6 max-w-2xl">
+                <?php
+                $pop_cats = mysqli_query($conn, "
+                    SELECT k.nama_kategori, 
+                    (SELECT gambar FROM produk WHERE kategori = k.nama_kategori AND gambar != '' ORDER BY RAND() LIMIT 1) as gambar_produk
+                    FROM kategori k 
+                    ORDER BY (SELECT COUNT(id) FROM produk WHERE kategori = k.nama_kategori) DESC 
+                    LIMIT 3
+                ");
+                while ($pc = mysqli_fetch_assoc($pop_cats)):
+                    $img_pc = $pc['gambar_produk'] ? 'assets/images/' . $pc['gambar_produk'] : 'https://placehold.co/200x200?text=' . urlencode($pc['nama_kategori']);
+                ?>
+                    <a href="index.php?kategori=<?= urlencode($pc['nama_kategori']) ?>" class="group flex flex-col items-center text-center">
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full overflow-hidden shadow-sm bg-white p-1 border border-gray-100 flex items-center justify-center">
+                            <img src="<?= $img_pc ?>" alt="<?= htmlspecialchars($pc['nama_kategori']) ?>" class="w-full h-full object-cover rounded-full">
+                        </div>
+                        <span class="mt-2 text-[11px] md:text-xs font-semibold text-gray-700 group-hover:text-[#002147] transition-colors line-clamp-2"><?= htmlspecialchars($pc['nama_kategori']) ?></span>
                     </a>
-                </div>
+                <?php endwhile; ?>
+
+                <!-- Item Ke-4: Kategori Lainnya -->
+                <a href="katalog.php" class="group flex flex-col items-center text-center">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full overflow-hidden shadow-sm bg-gray-200 flex items-center justify-center border border-gray-200 group-hover:bg-gray-300 transition-colors">
+                        <span class="text-xs font-bold text-gray-500">Lainnya</span>
+                    </div>
+                    <span class="mt-2 text-[11px] md:text-xs font-semibold text-gray-700 group-hover:text-[#002147] transition-colors">Lainnya</span>
+                </a>
             </div>
         </div>
     </section>
 
-    <main class="bg-gray-50 py-10">
+    <!-- 6. SECTION IKLAN HORIZONTAL -->
+    <section class="bg-gray-50 border-t border-gray-100 py-4">
+        <p class="text-[10px] text-center text-gray-400 tracking-wider mb-2">ADVERTISEMENTS</p>
+        <div class="container mx-auto px-4">
+            <div class="bg-white border border-gray-200 rounded-sm overflow-hidden shadow-sm">
+                <a href="https://smkantartika2-sda.sch.id/post/detail/antartika-fair-2026-event-spektakuler-penuh-talenta-dan-hiburan-di-sidoarjo" target="_blank">
+                    <img src="assets/images/iklan-horizontal.png" alt="Iklan Horizontal" class="w-full h-28 md:h-36 object-cover">
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. KATALOG UTAMA DENGAN FILTER SIDEBAR -->
+    <main class="bg-gray-50 py-8">
         <div class="container mx-auto px-4">
             <div class="flex flex-col lg:flex-row gap-8">
 
+                <!-- SIDEBAR FILTER (DESKTOP) -->
                 <aside class="hidden lg:block w-64 flex-shrink-0">
                     <form action="index.php" method="GET" id="filter-form-sidebar" class="space-y-8">
                         <div>
                             <h3 class="text-sm font-bold text-[#002147] uppercase mb-4 flex items-center gap-2">
-                                <i class="fa-solid fa-list text-xs text-gray-400"></i>
-                                Kategori
+                                <i class="fa-solid fa-list text-xs text-gray-400"></i> Kategori
                             </h3>
                             <div class="space-y-3">
                                 <?php
@@ -233,10 +223,10 @@ $unggulan_query = mysqli_query($conn, "SELECT * FROM produk WHERE stok > 0 ORDER
                                     $is_checked = (isset($_GET['kategori']) && $_GET['kategori'] == $cat['nama_kategori']) ? 'checked' : '';
                                 ?>
                                     <label class="flex items-center gap-3 cursor-pointer group">
-                                        <input type="radio" name="kategori" value="<?= $cat['nama_kategori'] ?>" <?= $is_checked ?>
+                                        <input type="radio" name="kategori" value="<?= htmlspecialchars($cat['nama_kategori']) ?>" <?= $is_checked ?>
                                             onchange="this.form.submit()"
                                             class="w-4 h-4 border-gray-300 text-[#FFB606] focus:ring-[#FFB606]">
-                                        <span class="text-sm text-gray-600 group-hover:text-[#FFB606] transition-colors"><?= $cat['nama_kategori'] ?></span>
+                                        <span class="text-sm text-gray-600 group-hover:text-[#FFB606] transition-colors"><?= htmlspecialchars($cat['nama_kategori']) ?></span>
                                     </label>
                                 <?php endwhile; ?>
                             </div>
@@ -246,15 +236,14 @@ $unggulan_query = mysqli_query($conn, "SELECT * FROM produk WHERE stok > 0 ORDER
 
                         <div>
                             <h3 class="text-sm font-bold text-[#002147] uppercase mb-4 flex items-center gap-2">
-                                <i class="fa-solid fa-tags text-xs text-gray-400"></i>
-                                Rentang Harga
+                                <i class="fa-solid fa-tags text-xs text-gray-400"></i> Rentang Harga
                             </h3>
                             <div class="space-y-4">
                                 <div class="flex items-center gap-2">
-                                    <input type="number" name="min_price" placeholder="Rp MIN" value="<?= isset($_GET['min_price']) ? $_GET['min_price'] : '' ?>"
+                                    <input type="number" name="min_price" placeholder="Rp MIN" value="<?= isset($_GET['min_price']) ? htmlspecialchars($_GET['min_price']) : '' ?>"
                                         class="w-full text-xs p-2 border border-gray-200 rounded-sm focus:outline-none focus:border-[#FFB606]">
                                     <div class="w-2 h-[1px] bg-gray-300 flex-shrink-0"></div>
-                                    <input type="number" name="max_price" placeholder="Rp MAX" value="<?= isset($_GET['max_price']) ? $_GET['max_price'] : '' ?>"
+                                    <input type="number" name="max_price" placeholder="Rp MAX" value="<?= isset($_GET['max_price']) ? htmlspecialchars($_GET['max_price']) : '' ?>"
                                         class="w-full text-xs p-2 border border-gray-200 rounded-sm focus:outline-none focus:border-[#FFB606]">
                                 </div>
                                 <button type="submit" class="w-full bg-[#FFB606] text-[#002147] py-1.5 rounded-sm text-xs font-bold hover:bg-yellow-500 transition-colors uppercase">
@@ -271,6 +260,7 @@ $unggulan_query = mysqli_query($conn, "SELECT * FROM produk WHERE stok > 0 ORDER
                     </form>
                 </aside>
 
+                <!-- GRID KATALOG PRODUK -->
                 <div class="flex-1">
                     <?php
                     $f_kat = isset($_GET['kategori']) ? $_GET['kategori'] : '';
@@ -306,6 +296,7 @@ $unggulan_query = mysqli_query($conn, "SELECT * FROM produk WHERE stok > 0 ORDER
                     }
                     ?>
 
+                    <!-- Filter Kategori Mobile Horizontal Scroll -->
                     <div class="lg:hidden mb-6 overflow-x-auto no-scrollbar pb-2">
                         <div class="flex gap-2 whitespace-nowrap">
                             <a href="index.php" class="px-4 py-2 <?= !$f_kat ? 'bg-[#FFB606] text-[#002147] border-[#FFB606]' : 'bg-white text-gray-700 border-gray-200' ?> border rounded-full text-xs font-medium transition-all">Semua</a>
@@ -315,39 +306,38 @@ $unggulan_query = mysqli_query($conn, "SELECT * FROM produk WHERE stok > 0 ORDER
                                 $is_active = ($f_kat == $km['nama_kategori']);
                             ?>
                                 <a href="<?= filterUrl(['kategori' => $km['nama_kategori']]) ?>" class="px-4 py-2 <?= $is_active ? 'bg-[#FFB606] text-[#002147] border-[#FFB606]' : 'bg-white text-gray-700 border-gray-200' ?> border rounded-full text-xs font-medium transition-all">
-                                    <?= $km['nama_kategori'] ?>
+                                    <?= htmlspecialchars($km['nama_kategori']) ?>
                                 </a>
                             <?php endwhile; ?>
                         </div>
                     </div>
 
-                    <div class="lg:hidden mb-4 flex items-center justify-between">
-                        <h2 class="text-sm font-bold uppercase">
-                            <?= $f_kat ? $f_kat : 'Semua Produk' ?>
-                            <span class="text-[10px] font-normal text-gray-400 ml-1">(<?= $total_filtered ?>)</span>
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-sm font-bold text-[#002147] uppercase">
+                            SEMUA PRODUK <span class="text-gray-400 text-xs font-normal">(<?= $total_filtered ?>)</span>
                         </h2>
-                        <button onclick="toggleFilterModal()" class="flex items-center gap-2 text-xs font-medium text-gray-500/50 bg-gray-100 px-3 py-1.5 rounded-sm border border-gray-200">
-                            <i class="fa-solid fa-sliders"></i>
-                            Filter
+                        <button onclick="toggleFilterModal()" class="lg:hidden flex items-center gap-1.5 text-xs font-medium text-gray-600 bg-white px-3 py-1.5 rounded border border-gray-200">
+                            <i class="fa-solid fa-sliders"></i> Filter
                         </button>
                     </div>
 
+                    <!-- Items Grid Semua Produk -->
                     <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-2 md:gap-4">
                         <?php
                         if (mysqli_num_rows($main_query) > 0):
                             while ($p = mysqli_fetch_assoc($main_query)):
                                 $harga_p = number_format($p['harga'], 0, ',', '.');
-                                $img_p = $p['gambar'] ? 'assets/images/' . $p['gambar'] : '';
+                                $img_p = $p['gambar'] ? 'assets/images/' . $p['gambar'] : 'https://placehold.co/200x200?text=No+Image';
                                 $rating_p = $p['rata_rating'] ? round($p['rata_rating'], 1) : '0';
                         ?>
-                                <a href="detail.php?id=<?= $p['id'] ?>" class="group bg-white border border-transparent hover:border-[#FFB606] hover:shadow-lg transition-all duration-150 rounded-sm overflow-hidden flex flex-col h-full">
-                                    <div class="relative aspect-square overflow-hidden bg-gray-100">
-                                        <img src="<?= $img_p ?>" alt="<?= $p['nama_produk'] ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                <a href="detail.php?id=<?= $p['id'] ?>" class="group bg-white border border-gray-100 hover:border-[#FFB606] hover:shadow-lg transition-all duration-150 rounded-sm overflow-hidden flex flex-col h-full">
+                                    <div class="relative aspect-square overflow-hidden bg-gray-50">
+                                        <img src="<?= $img_p ?>" alt="<?= htmlspecialchars($p['nama_produk']) ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                                     </div>
 
                                     <div class="p-2 md:p-3 flex flex-col flex-1">
                                         <h3 class="text-xs md:text-sm text-gray-800 line-clamp-2 leading-tight mb-2 h-8 md:h-10">
-                                            <?= $p['nama_produk'] ?>
+                                            <?= htmlspecialchars($p['nama_produk']) ?>
                                         </h3>
 
                                         <div class="flex items-center gap-1 flex-wrap mt-auto">
@@ -385,6 +375,7 @@ $unggulan_query = mysqli_query($conn, "SELECT * FROM produk WHERE stok > 0 ORDER
                     </div>
                 </div>
 
+                <!-- SIDEBAR IKLAN VERTIKAL (DESKTOP) -->
                 <aside class="hidden xl:block w-48 flex-shrink-0">
                     <p class="text-xs text-center text-gray-500 py-2">ADVERTISEMENTS</p>
                     <div class="bg-white border border-gray-200 rounded-sm overflow-hidden shadow-sm sticky top-24">
@@ -398,8 +389,43 @@ $unggulan_query = mysqli_query($conn, "SELECT * FROM produk WHERE stok > 0 ORDER
         </div>
     </main>
 
+    <!-- MODAL FILTER MOBILE -->
+    <div id="filterModal" class="fixed inset-0 bg-black/50 z-50 hidden flex justify-end">
+        <div class="bg-white w-4/5 max-w-xs h-full p-4 overflow-y-auto flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between pb-4 mb-4 border-b border-gray-200">
+                    <h3 class="font-bold text-[#002147] uppercase text-sm">Filter Produk</h3>
+                    <button onclick="toggleFilterModal()" class="text-gray-500 hover:text-black">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+                <form action="index.php" method="GET" class="space-y-6">
+                    <div>
+                        <h4 class="text-xs font-bold text-[#002147] uppercase mb-3">Rentang Harga</h4>
+                        <div class="flex items-center gap-2 mb-3">
+                            <input type="number" name="min_price" placeholder="Rp MIN" value="<?= isset($_GET['min_price']) ? htmlspecialchars($_GET['min_price']) : '' ?>" class="w-full text-xs p-2 border border-gray-200 rounded-sm">
+                            <span>-</span>
+                            <input type="number" name="max_price" placeholder="Rp MAX" value="<?= isset($_GET['max_price']) ? htmlspecialchars($_GET['max_price']) : '' ?>" class="w-full text-xs p-2 border border-gray-200 rounded-sm">
+                        </div>
+                    </div>
+                    <?php if (isset($_GET['kategori'])): ?>
+                        <input type="hidden" name="kategori" value="<?= htmlspecialchars($_GET['kategori']) ?>">
+                    <?php endif; ?>
+                    <button type="submit" class="w-full bg-[#FFB606] text-[#002147] py-2 rounded-sm text-xs font-bold uppercase">Terapkan Filter</button>
+                </form>
+            </div>
+            <a href="index.php" class="block w-full text-center bg-gray-100 text-gray-600 py-2 rounded-sm text-xs font-bold uppercase mt-4">Reset Filter</a>
+        </div>
+    </div>
+
     <?php include 'includes/footer.php'; ?>
 
+    <script>
+        function toggleFilterModal() {
+            const modal = document.getElementById('filterModal');
+            modal.classList.toggle('hidden');
+        }
+    </script>
 </body>
 
 </html>
